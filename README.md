@@ -145,3 +145,37 @@ You can notice there is an extra component that might seem unfamiliar, it simply
 
 Another easy circuit we can tackle now is a single trit memory cell, which looks like this:\
 <img width="984" height="370" alt="image" src="https://github.com/user-attachments/assets/c69f4e1a-1d72-4926-905e-06aeefdc53fb" />
+
+
+## Arithmetics
+### Numbering systems
+So with ternary, we actually have a few options on how to handle integers.
+I will personally implement two systems in my machine, an unsigned system, and a balanced system.
+
+The unsigned integers will be as expected:
+- $\color{red}{F}$ $\implies$ 0
+- $\color{blue}{U}$ $\implies$ 1
+- $\color{green}{T}$ $\implies$ 2
+
+The balanced system will be the default for representing negative numbers, instead of using 3s complement:
+- $\color{red}{F}$ $\implies$ -1
+- $\color{blue}{U}$ $\implies$ 0
+- $\color{green}{T}$ $\implies$ 1
+
+The trits with the value of -1 will be written as N for simplicity.
+
+I will also introduce a few notations here:
+- `0u` followed by an unsigned ternary number, accepting {0, 1, 2}
+- `0t` followed by a balanced ternary number, accepting {N, 0, 1}
+- `0n` followed by a nonary number (base 9), accepting {0 to 8}
+- `0s` followed by a septemvigesimal number (base 27), accepting {`_`, `A` to `Z`}
+
+Note that in the septemvigesimal system, `_` represents the value 0, and `A` through `Z` represent values 1 through 26
+
+So if I have six trits holding the truth value of $\color{red}{F}$ $\color{blue}{U}$ $\color{red}{F}$ $\color{red}{F}$ $\color{green}{T}$ $\color{green}{T}$, then it could be interpreted as either `0u010022` (89) or `0tN0NN11` (-275).\
+One interesting property is that, for an $n$ trit representation, the unsigned interpretation of the number will always be exactly $\frac{3^n-1}{2}$ more than its balanced counterpart, which can be represented as a ternary number composed of $n$ 1s in a row.\
+This means you can transpose a number from one system to another in two equivalent ways:
+- assume the number is in unsigned representation and add or subtract a number made of $n$ $\color{blue}{U}$
+- assume the number is in balanced representation and add or subtract a number made of $n$ $\color{green}{T}$
+
+Do note that transposing a negative number from balanced to unsigned will force it to be represented in 3s complement, and vice-versa, which is to be avoided
