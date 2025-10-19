@@ -170,7 +170,7 @@ I will also introduce a few notations here:
 - `0n` followed by a nonary number (base 9), accepting {0 to 8}
 - `0s` followed by a septemvigesimal number (base 27), accepting {`_`, `A` to `Z`}
 
-Note that in the septemvigesimal system, `_` represents the value 0, and `A` through `Z` represent values 1 through 26
+Note that in the septemvigesimal system, `_` represents the value 0, and `A` through `Z` represent values 1 through 26.
 
 So if I have six trits holding the truth value of $\color{red}{F}$ $\color{blue}{U}$ $\color{red}{F}$ $\color{red}{F}$ $\color{green}{T}$ $\color{green}{T}$, then it could be interpreted as either `0u010022` (89) or `0tN0NN11` (-275).\
 One interesting property is that, for an $n$ trit representation, the unsigned interpretation of the number will always be exactly $\frac{3^n-1}{2}$ more than its balanced counterpart, which can be represented as a ternary number composed of $n$ 1s in a row.\
