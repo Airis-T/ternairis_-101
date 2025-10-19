@@ -21,7 +21,7 @@ First the simplest gate:
 
 There doesn't seem to be any other way to map this.
 
-Let's take it up a notch with AND, and go exaustively:
+Let's take it up a notch with AND, and go exhaustively:
 - $\color{red}{F}$ AND $\color{red}{F}$ $\implies$ $\color{red}{F}$
 - $\color{red}{F}$ AND $\color{green}{T}$ $\implies$ $\color{red}{F}$
 - $\color{green}{T}$ AND $\color{green}{T}$ $\implies$ $\color{green}{T}$
