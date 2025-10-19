@@ -15,9 +15,11 @@ But actually binary computers can already simulate perfectly accurate ternary st
 For the sake of clarity, I will call this third state that the $\color{blue}{Null}$ value emulates so well in standard computers the $\color{blue}{UNKNOWN}$ truth state, and abreviate the truth values as $\color{red}{F}$, $\color{blue}{U}$, and $\color{green}{T}$.
 
 First the simplest gate:
-- NOT $\color{red}{F}$ $\implies$ $\color{green}{T}$
-- NOT $\color{green}{T}$ $\implies$ $\color{red}{F}$
-- NOT $\color{blue}{U}$ $\implies$ $\color{blue}{U}$
+| | NOT |
+|:-:|:-:|
+| $F$ | $\color{green}{T}$ |
+| $U$ | $\color{blue}{U}$ |
+| $T$ | $\color{red}{F}$ |
 
 There doesn't seem to be any other way to map this.
 
