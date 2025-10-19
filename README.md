@@ -12,54 +12,95 @@ The first step is to understand how our usual gates would even work with 3 value
 Obviously it has to be some esoteric nonesense we've never seen before.
 But actually binary computers can already simulate perfectly accurate ternary state logic if you introduce the $\color{blue}{NUL}$ value.
 
+For the sake of clarity, I will call this third state that the $\color{blue}{NUL}$ value emulates so well in standard computers the $\color{blue}{UNKNOWN}$ truth state, and abreviate the truth values as $\color{red}{F}$, $\color{blue}{U}$, and $\color{green}{T}$.
+
 First the simplest gate:
-- NOT $\color{red}{FALSE}$ $\implies$ $\color{green}{TRUE}$
-- NOT $\color{green}{TRUE}$ $\implies$ $\color{red}{FALSE}$
-- NOT $\color{blue}{NUL}$ $\implies$ $\color{blue}{NUL}$
+- NOT $\color{red}{F}$ $\implies$ $\color{green}{T}$
+- NOT $\color{green}{T}$ $\implies$ $\color{red}{F}$
+- NOT $\color{blue}{U}$ $\implies$ $\color{blue}{U}$
 
 There doesn't seem to be any other way to map this.
 
-Let's take it up a notch with $AND$, and go exaustively:
-- $\color{red}{FALSE}$ AND $\color{red}{FALSE}$ $\implies$ $\color{red}{FALSE}$
-- $\color{red}{FALSE}$ AND $\color{green}{TRUE}$ $\implies$ $\color{red}{FALSE}$
-- $\color{green}{TRUE}$ AND $\color{green}{TRUE}$ $\implies$ $\color{green}{TRUE}$
+Let's take it up a notch with AND, and go exaustively:
+- $\color{red}{F}$ AND $\color{red}{F}$ $\implies$ $\color{red}{F}$
+- $\color{red}{F}$ AND $\color{green}{T}$ $\implies$ $\color{red}{F}$
+- $\color{green}{T}$ AND $\color{green}{T}$ $\implies$ $\color{green}{T}$
 
 So far, no surprises.
-- $\color{blue}{NUL}$ AND $\color{blue}{NUL}$ $\implies$ $\color{blue}{NUL}$
+- $\color{blue}{U}$ AND $\color{blue}{U}$ $\implies$ $\color{blue}{U}$
 
 I mean what else would it be ?
 We have no information going in so we should expect no information comming out.
-- $\color{red}{FALSE}$ AND $\color{blue}{NUL}$ $\implies$ $\color{red}{FALSE}$
+- $\color{red}{F}$ AND $\color{blue}{U}$ $\implies$ $\color{red}{F}$
 
-Seems logical, $\color{red}{FALSE}$ AND anything should be $\color{red}{FALSE}$, after all.
-- $\color{green}{TRUE}$ AND $\color{blue}{NUL}$ $\implies$ $\color{blue}{NUL}$
+Seems logical, $\color{red}{F}$ AND anything should be $\color{red}{F}$, after all.
+- $\color{green}{T}$ AND $\color{blue}{U}$ $\implies$ $\color{blue}{U}$
 
 That is a bit more interesting, but it still makes some sense.
-We have no way of assigning a meaningful value to the output since the only two straight forward cases we know of are that either one of the inputs is $\color{red}{FALSE}$, or both of the inputs are $\color{green}{TRUE}$.
+We have no way of assigning a meaningful value to the output since the only two straight forward cases we know of are that either one of the inputs is $\color{red}{F}$, or both of the inputs are $\color{green}{T}$.
 
 So we arrive at this truth table:
-| AND | $FALSE$ | $NUL$ | $TRUE$ |
+| AND | $F$ | $U$ | $T$ |
 |:---:|:---:|:---:|:---:|
-| $FALSE$ | $\color{red}{FALSE}$ | $\color{red}{FALSE}$ | $\color{red}{FALSE}$ |
-| $NUL$ | $\color{red}{FALSE}$ | $\color{blue}{NUL}$ | $\color{blue}{NUL}$ |
-| $TRUE$ | $\color{red}{FALSE}$ | $\color{blue}{NUL}$ | $\color{green}{TRUE}$ |
+| $F$ | $\color{red}{F}$ | $\color{red}{F}$ | $\color{red}{F}$ |
+| $U$ | $\color{red}{F}$ | $\color{blue}{U}$ | $\color{blue}{U}$ |
+| $T$ | $\color{red}{F}$ | $\color{blue}{U}$ | $\color{green}{T}$ |
 
 Through similar reasoning, we can get to the conclusion that this should be the truth table for OR:
-| OR | $FALSE$ | $NUL$ | $TRUE$ |
+| OR | $F$ | $U$ | $T$ |
 |:---:|:---:|:---:|:---:|
-| $FALSE$ | $\color{red}{FALSE}$ | $\color{blue}{NUL}$ | $\color{green}{TRUE}$ |
-| $NUL$ | $\color{blue}{NUL}$ | $\color{blue}{NUL}$ | $\color{green}{TRUE}$ |
-| $TRUE$ | $\color{green}{TRUE}$ | $\color{green}{TRUE}$ | $\color{green}{TRUE}$ |
+| $F$ | $\color{red}{F}$ | $\color{blue}{U}$ | $\color{green}{T}$ |
+| $U$ | $\color{blue}{U}$ | $\color{blue}{U}$ | $\color{green}{T}$ |
+| $T$ | $\color{green}{T}$ | $\color{green}{T}$ | $\color{green}{T}$ |
 
 We can also notice that our trusted rule of $A$ OR $B$ = NOT $A$ NAND NOT $B$ holds true.\
 Actually we can directly see the effects of it in the table: 
 negating A or B flips the table around the vertical or horizontal axis, and negating the outputs changes all the truth values.
 
 Similarly we could do the same reasoning for XOR, or use the formula that $A$ XOR $B$ = ($A$ AND NOT $B$) OR (NOT $A$ AND $B$), which gives out this truth table:
-| XOR | $FALSE$ | $NUL$ | $TRUE$ |
+| XOR | $F$ | $U$ | $T$ |
 |:---:|:---:|:---:|:---:|
-| $FALSE$ | $\color{red}{FALSE}$ | $\color{blue}{NUL}$ | $\color{green}{TRUE}$ |
-| $NUL$ | $\color{blue}{NUL}$ | $\color{blue}{NUL}$ | $\color{blue}{NUL}$ |
-| $TRUE$ | $\color{green}{TRUE}$ | $\color{blue}{NUL}$ | $\color{red}{FALSE}$ |
+| $F$ | $\color{red}{F}$ | $\color{blue}{U}$ | $\color{green}{T}$ |
+| $U$ | $\color{blue}{U}$ | $\color{blue}{U}$ | $\color{blue}{U}$ |
+| $T$ | $\color{green}{T}$ | $\color{blue}{U}$ | $\color{red}{F}$ |
 
 And here we go, a full definition of ternary boolean algebra, every other law should stay true, and we can build all the gates we need.
+
+## Dimensional constraint issues
+Actually if you look at the truth tables we got, you might notice two pretty big related issues:
+- No combination of NOT, AND, OR, and XOR can yield a result other than $\color{blue}{U}$ when evaluating $\color{blue}{U}$ with $\color{blue}{U}$.
+- No combination of NOT, AND, OR, and XOR can yield a $\color{blue}{U}$ when evaluating only $\color{green}{T}$ and $\color{red}{F}$ together.
+
+The gates we have simply do not have enough dimensions to reach every truth table we need, and trust me, we will need them.\
+
+So are we stuck ?
+Well unless we create new gates, this is the end of the adventure for us.\
+So let's do just that, and create new gates.
+
+We already have NOT defined as the gate that swaps $\color{red}{F}$ and $\color{green}{T}$ and leaves $\color{blue}{U}$ unchanged.\
+Symetrically, let's define AVER, the gate that swaps $\color{red}{F}$ and $\color{blue}{U}$ and leaves $\color{green}{T}$ unchanged,\
+as well as DENY, the gate that swaps $\color{blue}{U}$ and $\color{green}{T}$ and leaves $\color{red}{F}$ unchanged.
+
+Why those names ? Aver means to forcibly state something as true, and deny means to forcibly state something as false, so it makes sense that they would be the gates that respectively force $\color{green}{T}$ and $\color{red}{F}$ to stay in place.\
+I do not claim to be the first one to come up with those gates (I would actually be surprised), and I admit I did not look long for if they were already thought of by someone else and given different names.
+But this is what we're gonna roll with from now on.
+
+Now that we can switch around the truth values any way we want, let's see how they interact with each other.\
+This is a diagram that shows each node as an ordering of the truth values, connected by the gate that bridges the gap:
+<img width="809" height="512" alt="image" src="https://github.com/user-attachments/assets/c4bf9e95-d10a-40e4-879e-68fd6ccb7286" />
+
+We can notice multiple things from this.
+1. The three colored nodes and the three white nodes are all rolled versions of each other.
+2. Starting from any node, you can reach any other node by applying at most two swap gates.
+3. There are multiple paths that lead from one node to another
+
+From this, we can extend the usual law of `¬¬x = x`.\
+To clarify notation, N is NOT, A is AVER, D is DENY, and ND is ~neurodivergent~ NOT(DENY), so apply the DENY gate first, and then the NOT gate.
+- NN = AA = DD = id
+- NA = AD = DN
+- AN = DA = ND
+
+Which means we can now simplify any combination of swap gates into at most two.\
+Ex:\
+AADNDNNDDA = **\[AA\]** DND **\[NN\]** **\[DD\]** A = DNDA = D **\[ND\]** A = D **\[DA\]** A = **\[DD\]** **\[AA\]** = id\
+If you follow the diagram, you can see that starting from the top node (the canonical ordering) you do end up back where you started.
