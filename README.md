@@ -181,3 +181,54 @@ This means you can transpose a number from one system to another in two equivale
 - assume the number is in balanced representation and add or subtract a number made of $n$ $\color{green}{T}$
 
 Do note that transposing a negative number from balanced to unsigned will force it to be represented in 3s complement, and vice-versa, which is to be avoided
+
+### Adders
+Finally something concrete.
+Or so you might htink at first, because we still need to figure ot what the truth table of our adders will be, as well as how to arrange the gates to get the desired result.
+No, sadly it isn't as simple as an XOR and an AND gate like in binary, it gets a little more involved.
+
+Here is the truth table for the unsigned adder:
+| Sum | $F$ | $U$ | $T$ | | Carry | $F$ | $U$ | $T$ |
+|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
+| $F$ | $\color{red}{F}$ | $\color{blue}{U}$ | $\color{green}{T}$ | | $F$ | $\color{red}{F}$ | $\color{red}{F}$ | $\color{red}{F}$ |
+| $U$ | $\color{blue}{U}$ | $\color{green}{T}$ | $\color{red}{F}$ | | $U$ | $\color{red}{F}$ | $\color{red}{F}$ | $\color{blue}{U}$ |
+| $T$ | $\color{green}{T}$ | $\color{red}{F}$ | $\color{blue}{U}$ | | $T$ | $\color{red}{F}$ | $\color{blue}{U}$ | $\color{blue}{U}$ |
+
+With the corresponding gates being:\
+`D(Da⊕Db) ⊕ D(a*b)`, `ND(a+b) * D(a*b)`
+
+<img width="1066" height="332" alt="image" src="https://github.com/user-attachments/assets/78ad8275-267c-47ed-a06a-5235d4dd9f0e" />
+
+And the balanced adder:
+| Sum | $F$ | $U$ | $T$ | | Carry | $F$ | $U$ | $T$ |
+|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
+| $F$ | $\color{green}{T}$ | $\color{red}{F}$ | $\color{blue}{U}$ | | $F$ | $\color{red}{F}$ | $\color{blue}{U}$ | $\color{blue}{U}$ |
+| $U$ | $\color{red}{F}$ | $\color{blue}{U}$ | $\color{green}{T}$ | | $U$ | $\color{blue}{U}$ | $\color{blue}{U}$ | $\color{blue}{U}$ |
+| $T$ | $\color{blue}{U}$ | $\color{green}{T}$ | $\color{red}{F}$ | | $T$ | $\color{blue}{U}$ | $\color{blue}{U}$ | $\color{green}{T}$ |
+
+`ND(a⊕b) ⊕ D(Da*Db)`, `A(Aa*Ab) ⊕ D(a⊕b)`
+
+<img width="1065" height="338" alt="image" src="https://github.com/user-attachments/assets/8e6f988b-45f7-4f91-9e9d-f0a6aed033ff" />
+
+This gives us two third adders, which are not simply named that way for theming purposes, but also because you genuinely need three to get a full adder.
+
+<img width="821" height="270" alt="image" src="https://github.com/user-attachments/assets/a3a7de95-c671-4ff0-b246-a4db8abc9f8d" />
+
+## Memory
+Nothing fancy in terms of construction, but there are some naming concentions that I would like to introduce:
+- A trit is the basic unit of data that can be stored in a sinble wire, equivalent to a binary bit
+- 3 trits make a nittle
+- 3 nittles make a Tryte
+- $3^7$ = 2187 = 2 k
+- $3^{14}$ = $3^7$ \* $3^7$ = 2 k \* 2 k = 4 M
+
+And so on.
+
+I will say I would have prefered to make a full Tryte address RAM, but the program was physically not able to handle it, so I had to limit myself to 2 nittles of addressing, which still allows for storing 729T of data in 1T chunks.
+Here is the circuit that allows for selecting from 3 options :\
+<img width="660" height="525" alt="image" src="https://github.com/user-attachments/assets/26e18a50-93df-45b7-afde-4f6fd1066857" />
+
+And the construction of the RAM, remember that we need to handle every wire individually:\
+<img width="1641" height="822" alt="image" src="https://github.com/user-attachments/assets/491c9017-f4fb-4843-aae4-e1259c9bd131" />\
+<img width="1634" height="824" alt="image" src="https://github.com/user-attachments/assets/75fbee7d-d0f5-4e99-bcd7-d850f2b74436" />\
+<img width="1051" height="914" alt="image" src="https://github.com/user-attachments/assets/f8d2ab2e-dc56-4b14-b220-7e8cdde8e93a" />
