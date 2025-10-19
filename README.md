@@ -107,6 +107,21 @@ Ex:\
 AADNDNNDDA = **\[AA\]** DND **\[NN\]** **\[DD\]** A = DNDA = D **\[ND\]** A = D **\[DA\]** A = **\[DD\]** **\[AA\]** = id\
 If you follow the diagram, you can see that starting from the top node (the canonical ordering) you do end up back where you started.
 
+### New basic combinations
+With new ways to swap the data, we now need to catalogue all the new basic gate combinations we have access to.\
+Binary has 8 that are unique up to switching $A$ and $B$:
+- $A$ AND $B$
+- NOT $A$ AND $B$
+- $A$ NAND $B$
+- $A$ OR $B$
+- NOT $A$ OR $B$
+- $A$ NOR $B$
+- $A$ XOR $B$
+- $A$ XNOR $B$
+
+I used some unoptimized Python code to generated and filter all the gates for ternary, and it turns out we now have 162 unique gate combinations, which is **a lot**, but thankfully they're mostly all rotations of each other.\
+Armed with the full list as a reference, we now have everything we need to actually connect some wires.
+
 ## Actually building a computer
 ### About the simulator
 All of that theory is nice and all, but we still need to even construct those gates.\
