@@ -10,9 +10,9 @@ The main takaway I get is that it is possible to get 3 different states on a wir
 ## Understanding extended boolean algebra
 The first step is to understand how our usual gates would even work with 3 values.
 Obviously it has to be some esoteric nonesense we've never seen before.
-But actually binary computers can already simulate perfectly accurate ternary state logic if you introduce the $\color{blue}{NUL}$ value.
+But actually binary computers can already simulate perfectly accurate ternary state logic if you introduce the $\color{blue}{Null}$ value.
 
-For the sake of clarity, I will call this third state that the $\color{blue}{NUL}$ value emulates so well in standard computers the $\color{blue}{UNKNOWN}$ truth state, and abreviate the truth values as $\color{red}{F}$, $\color{blue}{U}$, and $\color{green}{T}$.
+For the sake of clarity, I will call this third state that the $\color{blue}{Null}$ value emulates so well in standard computers the $\color{blue}{UNKNOWN}$ truth state, and abreviate the truth values as $\color{red}{F}$, $\color{blue}{U}$, and $\color{green}{T}$.
 
 First the simplest gate:
 - NOT $\color{red}{F}$ $\implies$ $\color{green}{T}$
