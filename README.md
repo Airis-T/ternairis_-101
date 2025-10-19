@@ -67,11 +67,12 @@ Similarly we could do the same reasoning for XOR, or use the formula that $A$ XO
 And here we go, a full definition of ternary boolean algebra, every other law should stay true, and we can build all the gates we need.
 
 ## Dimensional constraint issues
+### New dimensions
 Actually if you look at the truth tables we got, you might notice two pretty big related issues:
 - No combination of NOT, AND, OR, and XOR can yield a result other than $\color{blue}{U}$ when evaluating $\color{blue}{U}$ with $\color{blue}{U}$.
 - No combination of NOT, AND, OR, and XOR can yield a $\color{blue}{U}$ when evaluating only $\color{green}{T}$ and $\color{red}{F}$ together.
 
-The gates we have simply do not have enough dimensions to reach every truth table we need, and trust me, we will need them.\
+The gates we have simply do not have enough dimensions to reach every truth table we need, and trust me, we will need them.
 
 So are we stuck ?
 Well unless we create new gates, this is the end of the adventure for us.\
@@ -85,8 +86,9 @@ Why those names ? Aver means to forcibly state something as true, and deny means
 I do not claim to be the first one to come up with those gates (I would actually be surprised), and I admit I did not look long for if they were already thought of by someone else and given different names.
 But this is what we're gonna roll with from now on.
 
+### Theoretical analysis
 Now that we can switch around the truth values any way we want, let's see how they interact with each other.\
-This is a diagram that shows each node as an ordering of the truth values, connected by the gate that bridges the gap:
+This is a diagram that shows each node as an ordering of the truth values, connected by the gate that bridges the gap:\
 <img width="809" height="512" alt="image" src="https://github.com/user-attachments/assets/c4bf9e95-d10a-40e4-879e-68fd6ccb7286" />
 
 We can notice multiple things from this.
@@ -104,3 +106,27 @@ Which means we can now simplify any combination of swap gates into at most two.\
 Ex:\
 AADNDNNDDA = **\[AA\]** DND **\[NN\]** **\[DD\]** A = DNDA = D **\[ND\]** A = D **\[DA\]** A = **\[DD\]** **\[AA\]** = id\
 If you follow the diagram, you can see that starting from the top node (the canonical ordering) you do end up back where you started.
+
+## Actually building a computer
+### About the simulator
+All of that theory is nice and all, but we still need to even construct those gates.\
+I will be using the DLS program for my purposes. It has the really interesting feature that wires can be $\color{green}{on}$, $\color{red}{off}$, or $\color{blue}{undefined}$.\
+An $\color{blue}{undefined}$ wire is simply a wire that is either not connected to anything, or has been cut by a switch, the purpose being mainly to cut the current in a wire so you can avoid conflicts when sending data to a bus.
+
+But it just so happens that this third wire state behaves exactly as we would expect the $\color{blue}{U}$ truth value to, with the NOT, AND, OR, and XOR gates that the program gives us.
+
+There are some finicky details we need to keep in mind however, mainly memory constraints when it comes to what the simulator can handle (sadly even a few kilos of custom RAM are too many circuits at once for the poor program), and the fact that when merging single wires into a more manageable data wire of bigger size, the $\color{blue}{undefined}$ status propagates to the entire merged wire, which leads to this ridiculous situation where the output **should** obviously be 3:\
+<img width="520" height="373" alt="image" src="https://github.com/user-attachments/assets/889c657c-04da-4b2b-b527-bde8d21b9b06" />
+
+No matter, it just means we need to manage every wire individually, which is cumbersome but far from impossible.
+
+### First steps
+So let's build those gates.\
+As stated previously the default NOT, AND, OR, and XOR all behave as expected, so we just need to construct AVER and DENY, and here they are:\
+<img width="687" height="249" alt="image" src="https://github.com/user-attachments/assets/8aeb0176-e3bf-479b-a501-5eaf47fa1dcc" />\
+<img width="694" height="246" alt="image" src="https://github.com/user-attachments/assets/3ca367ea-01d9-45e5-a65f-85b18ca69d92" />
+
+You can notice there is an extra component that might seem unfamiliar, it simply takes in a wire signal, if it's $\color{green}{on}$ or $\color{red}{off}$ it lets it pass through, but if it's $\color{blue}{undefined}$ it sets it to a hardcoded value of $\color{green}{on}$ or $\color{red}{off}$.
+
+Another easy circuit we can tackle now is a single trit memory cell, which looks like this:\
+<img width="984" height="370" alt="image" src="https://github.com/user-attachments/assets/c69f4e1a-1d72-4926-905e-06aeefdc53fb" />
