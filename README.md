@@ -227,6 +227,39 @@ Every trit of the scaling factor is either a 0, which does nothing, a 1, which a
 All of this can be done very simply by inverting the scaling factor, and XOR-ing each trit with the whole copy of the number to multiply, then adding everything up:\
 <img width="1787" height="642" alt="image" src="https://github.com/user-attachments/assets/5775f4b4-6e7c-4ee9-81a5-762f5cba0616" />
 
+### Comparison
+Because of how we defined our numbers, comparison will work the same no matter the numerical interpretation.\
+Also because comparison typically has 3 outputs, we have the advantage over binary here since we can compress it in a single trit.
+
+There is the truth table we need:
+| CMP | $F$ | $U$ | $T$ |
+|:---:|:---:|:---:|:---:|
+| $F$ | $\color{blue}{eq}$ | $\color{red}{lt}$ | $\color{red}{lt}$ |
+| $U$ | $\color{green}{gt}$ | $\color{blue}{eq}$ | $\color{red}{lt}$ |
+| $T$ | $\color{green}{gt}$ | $\color{green}{gt}$ | $\color{blue}{eq}$ |
+
+It can be created with those two tables:
+| T0 | $F$ | $U$ | $T$ | | T1 | $F$ | $U$ | $T$ |
+|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
+| $F$ | $\color{red}{F}$ | $\color{red}{F}$ | $\color{red}{F}$ | | $F$ | $\color{green}{T}$ | $\color{blue}{U}$ | $\color{blue}{U}$ |
+| $U$ | $\color{blue}{U}$ | $\color{green}{T}$ | $\color{red}{F}$ | | $U$ | $\color{green}{T}$ | $\color{red}{F}$ | $\color{blue}{U}$ |
+| $T$ | $\color{blue}{U}$ | $\color{blue}{U}$ | $\color{red}{F}$ | | $T$ | $\color{green}{T}$ | $\color{green}{T}$ | $\color{green}{T}$ |
+
+Composed with a gate that has those properties:
+| Sum | $F$ | $U$ | $T$ |
+|:-:|:-:|:-:|:-:|
+| $F$ | $x$ | $\color{red}{F}$ | $\color{blue}{U}$ |
+| $U$ | $\color{red}{F}$ | $x$ | $\color{green}{T}$ |
+| $T$ | $\color{blue}{U}$ | $\color{green}{T}$ | $x$ |
+
+Which happens to be the same as our balanced addition.
+
+<img width="848" height="246" alt="image" src="https://github.com/user-attachments/assets/31050f36-7719-44ca-91a5-ff3124c04431" />
+
+We can then scale to a full Tryte by simply making sure once we get the information we need in a high trit, we block any other calculations.
+
+<img width="1021" height="956" alt="image" src="https://github.com/user-attachments/assets/d39a3e9c-0af3-4b10-9272-06990924fd5b" />
+
 ## Memory
 Nothing fancy in terms of construction, but there are some naming conventions that I would like to introduce:
 - A trit is the basic unit of data that can be stored in a sinble wire, equivalent to a binary bit
