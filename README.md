@@ -216,7 +216,7 @@ This gives us two third adders, which are not simply named that way for theming 
 <img width="821" height="270" alt="image" src="https://github.com/user-attachments/assets/a3a7de95-c671-4ff0-b246-a4db8abc9f8d" />
 
 ## Memory
-Nothing fancy in terms of construction, but there are some naming concentions that I would like to introduce:
+Nothing fancy in terms of construction, but there are some naming conventions that I would like to introduce:
 - A trit is the basic unit of data that can be stored in a sinble wire, equivalent to a binary bit
 - 3 trits make a nittle
 - 3 nittles make a Tryte
