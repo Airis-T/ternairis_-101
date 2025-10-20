@@ -122,7 +122,7 @@ Binary has 8 that are unique up to switching $A$ and $B$:
 - $A$ XOR $B$
 - $A$ XNOR $B$
 
-I used some unoptimized Python code to generated and filter all the gates for ternary, and it turns out we now have 162 unique gate combinations, which is **a lot**, but thankfully they're mostly all rotations of each other.\
+I used some unoptimized Python code to generate and filter all the gates for ternary, and it turns out we now have 162 unique gate combinations, which is *a lot*, but thankfully they're mostly all rotations of each other.\
 Armed with the full list as a reference, we now have everything we need to actually connect some wires.
 
 ## Actually building a computer
@@ -181,11 +181,16 @@ This means you can transpose a number from one system to another in two equivale
 - assume the number is in unsigned representation and add or subtract a number made of $n$ $\color{blue}{U}$
 - assume the number is in balanced representation and add or subtract a number made of $n$ $\color{green}{T}$
 
-Do note that transposing a negative number from balanced to unsigned will force it to be represented in 3s complement, and vice-versa, which is to be avoided
+Do note that transposing a negative number from balanced to unsigned will force it to be represented in 3s complement, and vice-versa, which is to be avoided.
+
+Another neat property of balanced ternary is that negating a number is as simple as passing it through a NOT gate:
+- -1 = NOT $\color{green}{T}$ = $\color{red}{F}$ = N
+- -0 = NOT $\color{blue}{U}$ = $\color{blue}{U}$ = 0
+- -N = NOT $\color{red}{F}$ = $\color{green}{T}$ = 1
 
 ### Adders
-Finally something concrete.
-Or so you might htink at first, because we still need to figure ot what the truth table of our adders will be, as well as how to arrange the gates to get the desired result.
+Finally something easy.
+Or so you might think at first, because we still need to figure ot what the truth table of our adders will be, as well as how to arrange the gates to get the desired result.
 No, sadly it isn't as simple as an XOR and an AND gate like in binary, it gets a little more involved.
 
 Here is the truth table for the unsigned adder:
@@ -195,7 +200,8 @@ Here is the truth table for the unsigned adder:
 | $U$ | $\color{blue}{U}$ | $\color{green}{T}$ | $\color{red}{F}$ | | $U$ | $\color{red}{F}$ | $\color{red}{F}$ | $\color{blue}{U}$ |
 | $T$ | $\color{green}{T}$ | $\color{red}{F}$ | $\color{blue}{U}$ | | $T$ | $\color{red}{F}$ | $\color{blue}{U}$ | $\color{blue}{U}$ |
 
-With the corresponding gates being:\
+I did not yet find a way to implement a K-map, so it's gonna be a bit of a hassle every time.\
+But thanks to our 162 base gates catalogue, we can determine that those are the corresponding gates:\
 `D(Da⊕Db) ⊕ D(a*b)`, `ND(a+b) * D(a*b)`
 
 <img width="1066" height="332" alt="image" src="https://github.com/user-attachments/assets/78ad8275-267c-47ed-a06a-5235d4dd9f0e" />
