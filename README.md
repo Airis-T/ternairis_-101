@@ -1,4 +1,4 @@
-# Ternairis -101
+# TERNAIRIS -101
 ### Or how to make a ternary computer
 I don't think I need to introduce to anyone reading this the concept of binary numbers and how they are the basis of every computer since their invention.
 But actually this would be wrong, binary was not always the only option for building computers.
