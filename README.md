@@ -232,3 +232,33 @@ And the construction of the RAM, remember that we need to handle every wire indi
 <img width="1641" height="822" alt="image" src="https://github.com/user-attachments/assets/491c9017-f4fb-4843-aae4-e1259c9bd131" />\
 <img width="1634" height="824" alt="image" src="https://github.com/user-attachments/assets/75fbee7d-d0f5-4e99-bcd7-d850f2b74436" />\
 <img width="1051" height="914" alt="image" src="https://github.com/user-attachments/assets/f8d2ab2e-dc56-4b14-b220-7e8cdde8e93a" />
+
+## Character set
+This section will definitely move, but I just want it to be added to the document for now.
+
+I cannot simply use the Unicode standard to represent characters on this computer, so I had to implement my own character set.
+It uses 5 trits of addressing, which means a limit of 243 characters, and I used this to try and map a subset of Code Page 437 onto it.
+
+This is CP437:\
+<img width="304" height="144" alt="image" src="https://github.com/user-attachments/assets/e71ca909-1206-4db4-92c1-7f4102ed9adb" />
+
+And this is my character set:
+```
+    000 001 002 010 011 012 020 021 022 100 101 102 110 111 112 120 121 122 200 201 202 210 211 212 220 221 222
+00  NUL ☺︎   ☻   ♥︎   ♦︎   ♣︎   ♠︎   •   ◘   ○   ◙   ♂︎   ♀︎   ♪   ♫   ☼   ►   ◄   ↕︎   ‼︎   ¶   §   ▬   ↨   ↑   ↓   →
+01  ←   ∟   ↔︎   ▲   ▼   sp  !   "   #   $   %   &   '   (   )   *   +   ,   ¡   .   /   :   ;   <   =   >   ?
+02  0   1   2   3   4   5   6   7   8   9   @   [   \   ]   ^   ¬   `   {   |   }   ~   ⌂   ¢   £   ¥   €   ¿
+10  _   A   B   C   D   E   F   G   H   I   J   K   L   M   N   O   P   Q   R   S   T   U   V   W   X   Y   Z
+11  -   a   b   c   d   e   f   g   h   i   j   k   l   m   n   o   p   q   r   s   t   u   v   w   x   y   z
+12  â   ä   à   á   ç   ê   ë   è   é   æ   î   ï   ì   í   å   ô   ö   ò   ó   °   û   ü   ù   ú   ÿ   ñ   ∩
+20  ·   α   ß   Γ   π   Σ   σ   µ   τ   Φ   Θ   Ω   δ   φ   ε   Ä   É   Æ   Å   Ç   Ö   Ü   Ñ   «   »   ÷   ±
+21  ░   ▒   ▓   █   ▄   ▀   ▌   ▐   ■   │   ┤   ╡   ╢   ╖   ╕   ╣   ║   ╗   ╝   ╜   ╛   ┐   └   ┴   ┬   ├   ─
+22  ┼   ╞   ╟   ╚   ╔   ╩   ╦   ╠   ═   ╬   ╧   ╨   ╤   ╥   ╙   ╘   ╒   ╓   ╫   ╪   ┘   ┌   ≡   ≈   √   ∞   nbsp
+```
+Which allows us to do stuff like this:
+```
+╞═╦═╡╔═╡ ╔═╗ ╔╗ ╥ ╔═╗ ╥ ╔═╗ ╥ ╔═╡
+  ║  ╠╡  ╠╦╝ ║╚╗║ ╠═╣ ║ ╠╦╝ ║ ╚═╗
+  ╨  ╚═╡ ╨╚╡ ╨ ╚╝ ╨ ╨ ╨ ╨╚╡ ╨ ╞═╝
+```
+And that's pretty cool
