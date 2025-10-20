@@ -60,6 +60,8 @@ We can also notice that our trusted rule of $A$ OR $B$ = NOT $A$ NAND NOT $B$ ho
 Actually we can directly see the effects of it in the table: 
 negating A or B flips the table around the vertical or horizontal axis, and negating the outputs changes all the truth values.
 
+If we were to extend boolean algebra to an even bigger base, we could by simply noticing that those two tables are actually the same as a min and a max function.
+
 Similarly we could do the same reasoning for XOR, or use the formula that $A$ XOR $B$ = ($A$ AND NOT $B$) OR (NOT $A$ AND $B$), which gives out this truth table:
 | XOR | $F$ | $U$ | $T$ |
 |:---:|:---:|:---:|:---:|
