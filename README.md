@@ -221,6 +221,12 @@ This gives us two third adders, which are not simply named that way for theming 
 
 <img width="821" height="270" alt="image" src="https://github.com/user-attachments/assets/a3a7de95-c671-4ff0-b246-a4db8abc9f8d" />
 
+### Multiplication
+The only multiplier that will be implemented is the balanced version, since it is the easiest to build.\
+Every trit of the scaling factor is either a 0, which does nothing, a 1, which adds a shifted copy of the number to multiply, or a -1, which adds a negative copy, and we know negation is just applying the NOT operation.\
+All of this can be done very simply by inverting the scaling factor, and XOR-ing each trit with the whole copy of the number to multiply, then adding everything up:\
+<img width="1787" height="642" alt="image" src="https://github.com/user-attachments/assets/5775f4b4-6e7c-4ee9-81a5-762f5cba0616" />
+
 ## Memory
 Nothing fancy in terms of construction, but there are some naming conventions that I would like to introduce:
 - A trit is the basic unit of data that can be stored in a sinble wire, equivalent to a binary bit
