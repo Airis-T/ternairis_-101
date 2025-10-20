@@ -248,7 +248,7 @@ It can be created with those two tables:
 | $T$ | $\color{blue}{U}$ | $\color{blue}{U}$ | $\color{red}{F}$ | | $T$ | $\color{green}{T}$ | $\color{green}{T}$ | $\color{green}{T}$ |
 
 Composed with a gate that has those properties:
-| Sum | $F$ | $U$ | $T$ |
+| T2 | $F$ | $U$ | $T$ |
 |:-:|:-:|:-:|:-:|
 | $F$ | $x$ | $\color{red}{F}$ | $\color{blue}{U}$ |
 | $U$ | $\color{red}{F}$ | $x$ | $\color{green}{T}$ |
@@ -264,7 +264,7 @@ We can then scale to a full Tryte by simply making sure once we get the informat
 
 ## Memory
 Nothing fancy in terms of construction, but there are some naming conventions that I would like to introduce:
-- A trit is the basic unit of data that can be stored in a sinble wire, equivalent to a binary bit
+- A trit is the basic unit of data that can be stored in a single wire, equivalent to a binary bit
 - 3 trits make a nittle
 - 3 nittles make a Tryte
 - $3^7$ = 2187 = 2 k
