@@ -168,15 +168,18 @@ The trits with the value of -1 will be written as Z for simplicity.
 I will also introduce a few notations here:
 - `0t` followed by a balanced ternary number, accepting {`Z`, `0`, `1`}
 - `0n` followed by a nonary number (base 9), accepting {`W` to `Z`, `0` to `4`}
-- `0s` followed by a icosiheptimal number (base 27), accepting {`N` to `Z`, `_`, `A` to `M`}
+- `0p` followed by a icosiheptimal number (base 27), accepting {`N` to `Z`, `_`, `A` to `M`}
 
 As you can notice, the higher half of the alphabet is dedicated to representing negative values, which works fine for ternary and nonary, because the positives are just numbers.
 But it can get a little confusing for icosiheptimal, just remember that anything after `N` is `negative`.\
 `_` was also chosen to represent the value 0, to avoid confusion with the letter `O`.
 
-Also we can shorten that name to "hept". I am aware that icosiheptimal is not the correct name for that base, and it should really be septemvigesimal, but if sextadecimal can rebrand itself as "hex", I can do what I want.
+Also we can shorten that name to "hept". I am aware that icosiheptimal is not the correct name for that base, and it should really be septemvigesimal.
+But if sextadecimal can rebrand itself as "hex", I can do what I want.
 
 So if I have six trits holding the truth value of $\color{red}{F}$ $\color{blue}{U}$ $\color{red}{F}$ $\color{red}{F}$ $\color{green}{T}$ $\color{green}{T}$, then it will be interpreted as `0tZ0ZZ11` (-275).\
+That same number would be written as `0nXW4` and `0pQV` in our other bases.
+
 A neat property of balanced ternary is that negating a number is as simple as passing it through a NOT gate:
 - -1 = NOT $\color{green}{T}$ = $\color{red}{F}$ = Z
 - -0 = NOT $\color{blue}{U}$ = $\color{blue}{U}$ = 0
