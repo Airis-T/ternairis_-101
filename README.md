@@ -155,83 +155,62 @@ Another easy circuit we can tackle now is a single trit memory cell, which looks
 ## Arithmetics
 ### Numbering systems
 So with ternary, we actually have a few options on how to handle integers.
-I will personally implement two systems in my machine, an unsigned system, and a balanced system.
+I will personally only implement balanced ternary numbers in this machine.
+I have considered an unsigned integer system, but realized that I don't actually gain any advantage by having that option.
 
-The unsigned integers will be as expected:
-- $\color{red}{F}$ $\implies$ 0
-- $\color{blue}{U}$ $\implies$ 1
-- $\color{green}{T}$ $\implies$ 2
-
-The balanced system will be the default for representing negative numbers, instead of using 3s complement:
+This is how the truth values map to balanced ternary:
 - $\color{red}{F}$ $\implies$ -1
 - $\color{blue}{U}$ $\implies$ 0
 - $\color{green}{T}$ $\implies$ 1
 
-The trits with the value of -1 will be written as N for simplicity.
+The trits with the value of -1 will be written as Z for simplicity.
 
 I will also introduce a few notations here:
-- `0u` followed by an unsigned ternary number, accepting {0, 1, 2}
-- `0t` followed by a balanced ternary number, accepting {N, 0, 1}
-- `0n` followed by a nonary number (base 9), accepting {0 to 8}
-- `0s` followed by a septemvigesimal number (base 27), accepting {`_`, `A` to `Z`}
+- `0t` followed by a balanced ternary number, accepting {`Z`, `0`, `1`}
+- `0n` followed by a nonary number (base 9), accepting {`W` to `Z`, `0` to `4`}
+- `0s` followed by a icosiheptimal number (base 27), accepting {`N` to `Z`, `_`, `A` to `M`}
 
-Note that in the septemvigesimal system, `_` represents the value 0, and `A` through `Z` represent values 1 through 26.
+As you can notice, the higher half of the alphabet is dedicated to represent negative values, which works fine for ternary and nonary, because the positives are just numbers.\
+But it can get a little confusing for icosiheptimal, just remember that anything after `N` is `negative`.
 
-So if I have six trits holding the truth value of $\color{red}{F}$ $\color{blue}{U}$ $\color{red}{F}$ $\color{red}{F}$ $\color{green}{T}$ $\color{green}{T}$, then it could be interpreted as either `0u010022` (89) or `0tN0NN11` (-275).\
-One interesting property is that, for an $n$ trit representation, the unsigned interpretation of the number will always be exactly $\frac{3^n-1}{2}$ more than its balanced counterpart, which can be represented as a ternary number composed of $n$ 1s in a row.\
-This means you can transpose a number from one system to another in two equivalent ways:
-- assume the number is in unsigned representation and add or subtract a number made of $n$ $\color{blue}{U}$
-- assume the number is in balanced representation and add or subtract a number made of $n$ $\color{green}{T}$
+Also we can shorten that name to "hept". I am aware that icosiheptimal is not the correct name for that base, and it should really be septemvigesimal, but if sextadecimal can rebrand itself as "hex", I can do what I want.
 
-Do note that transposing a negative number from balanced to unsigned will force it to be represented in 3s complement, and vice-versa, which is to be avoided.
-
-Another neat property of balanced ternary is that negating a number is as simple as passing it through a NOT gate:
-- -1 = NOT $\color{green}{T}$ = $\color{red}{F}$ = N
+So if I have six trits holding the truth value of $\color{red}{F}$ $\color{blue}{U}$ $\color{red}{F}$ $\color{red}{F}$ $\color{green}{T}$ $\color{green}{T}$, then it will be interpreted as `0tZ0ZZ11` (-275).\
+A neat property of balanced ternary is that negating a number is as simple as passing it through a NOT gate:
+- -1 = NOT $\color{green}{T}$ = $\color{red}{F}$ = Z
 - -0 = NOT $\color{blue}{U}$ = $\color{blue}{U}$ = 0
-- -N = NOT $\color{red}{F}$ = $\color{green}{T}$ = 1
+- -Z = NOT $\color{red}{F}$ = $\color{green}{T}$ = 1
 
-### Adders
+### Addition
 Finally something easy.
-Or so you might think at first, because we still need to figure ot what the truth table of our adders will be, as well as how to arrange the gates to get the desired result.
+Or so you might think at first, because we still need to figure ot what the truth table of our adder will be, as well as how to arrange the gates to get the desired result.
 No, sadly it isn't as simple as an XOR and an AND gate like in binary, it gets a little more involved.
 
-Here is the truth table for the unsigned adder:
-| Sum | $F$ | $U$ | $T$ | | Carry | $F$ | $U$ | $T$ |
-|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
-| $F$ | $\color{red}{F}$ | $\color{blue}{U}$ | $\color{green}{T}$ | | $F$ | $\color{red}{F}$ | $\color{red}{F}$ | $\color{red}{F}$ |
-| $U$ | $\color{blue}{U}$ | $\color{green}{T}$ | $\color{red}{F}$ | | $U$ | $\color{red}{F}$ | $\color{red}{F}$ | $\color{blue}{U}$ |
-| $T$ | $\color{green}{T}$ | $\color{red}{F}$ | $\color{blue}{U}$ | | $T$ | $\color{red}{F}$ | $\color{blue}{U}$ | $\color{blue}{U}$ |
-
-I did not yet find a way to implement a K-map, so it's gonna be a bit of a hassle every time.\
-But thanks to our 162 base gates catalogue, we can determine that those are the corresponding gates:\
-`D(Da⊕Db) ⊕ D(a*b)`, `ND(a+b) * D(a*b)`
-
-<img width="1066" height="332" alt="image" src="https://github.com/user-attachments/assets/78ad8275-267c-47ed-a06a-5235d4dd9f0e" />
-
-And the balanced adder:
+Here is the truth table that we need:
 | Sum | $F$ | $U$ | $T$ | | Carry | $F$ | $U$ | $T$ |
 |:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
 | $F$ | $\color{green}{T}$ | $\color{red}{F}$ | $\color{blue}{U}$ | | $F$ | $\color{red}{F}$ | $\color{blue}{U}$ | $\color{blue}{U}$ |
 | $U$ | $\color{red}{F}$ | $\color{blue}{U}$ | $\color{green}{T}$ | | $U$ | $\color{blue}{U}$ | $\color{blue}{U}$ | $\color{blue}{U}$ |
 | $T$ | $\color{blue}{U}$ | $\color{green}{T}$ | $\color{red}{F}$ | | $T$ | $\color{blue}{U}$ | $\color{blue}{U}$ | $\color{green}{T}$ |
 
+I did not yet find a way to implement a K-map, so it's gonna be a bit of a hassle every time.\
+But thanks to our 162 base gates catalogue, we can determine that those are the corresponding gates:\
 `ND(a⊕b) ⊕ D(Da*Db)`, `A(Aa*Ab) ⊕ D(a⊕b)`
 
 <img width="1065" height="338" alt="image" src="https://github.com/user-attachments/assets/8e6f988b-45f7-4f91-9e9d-f0a6aed033ff" />
 
-This gives us two third adders, which are not simply named that way for theming purposes, but also because you genuinely need three to get a full adder.
+This gives us our third adder, which is not simply named that way for theming purposes, but also because you genuinely need three to get a full adder.
 
 <img width="821" height="270" alt="image" src="https://github.com/user-attachments/assets/a3a7de95-c671-4ff0-b246-a4db8abc9f8d" />
 
 ### Multiplication
-The only multiplier that will be implemented is the balanced version, since it is the easiest to build.\
-Every trit of the scaling factor is either a 0, which does nothing, a 1, which adds a shifted copy of the number to multiply, or a -1, which adds a negative copy, and we know negation is just applying the NOT operation.\
+The multiplier circuit is actually fairly easy to build, despite how builky it is.\
+Every trit of the scaling factor is either a 0, which does nothing, a 1, which adds a shifted copy of the number to multiply, or a Z, which adds a negative copy, and we know negation is just applying the NOT operation.\
 All of this can be done very simply by inverting the scaling factor, and XOR-ing each trit with the whole copy of the number to multiply, then adding everything up:\
 <img width="1787" height="642" alt="image" src="https://github.com/user-attachments/assets/5775f4b4-6e7c-4ee9-81a5-762f5cba0616" />
 
 ### Comparison
-Because of how we defined our numbers, comparison will work the same no matter the numerical interpretation.\
-Also because comparison typically has 3 outputs, we have the advantage over binary here since we can compress it in a single trit.
+Because comparison typically has 3 outputs, we have the advantage over binary here since we can compress it in a single trit.
 
 There is the truth table we need:
 | CMP | $F$ | $U$ | $T$ |
@@ -254,7 +233,7 @@ Composed with a gate that has those properties:
 | $U$ | $\color{red}{F}$ | $x$ | $\color{green}{T}$ |
 | $T$ | $\color{blue}{U}$ | $\color{green}{T}$ | $x$ |
 
-Which happens to be the same as our balanced addition.
+Which happens to be the same as our addition.
 
 <img width="848" height="246" alt="image" src="https://github.com/user-attachments/assets/31050f36-7719-44ca-91a5-ff3124c04431" />
 
