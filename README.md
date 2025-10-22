@@ -170,8 +170,8 @@ I will also introduce a few notations here:
 - `0n` followed by a nonary number (base 9), accepting {`W` to `Z`, `0` to `4`}
 - `0s` followed by a icosiheptimal number (base 27), accepting {`N` to `Z`, `_`, `A` to `M`}
 
-As you can notice, the higher half of the alphabet is dedicated to represent negative values, which works fine for ternary and nonary, because the positives are just numbers.\
-But it can get a little confusing for icosiheptimal, just remember that anything after `N` is `negative`.
+As you can notice, the higher half of the alphabet is dedicated to representing negative values, which works fine for ternary and nonary, because the positives are just numbers.\
+But it can get a little confusing for icosiheptimal, just remember that anything after `N` is `negative`. `_` was also chosen to represent the value 0, to avoid confusion with the letter `O`.
 
 Also we can shorten that name to "hept". I am aware that icosiheptimal is not the correct name for that base, and it should really be septemvigesimal, but if sextadecimal can rebrand itself as "hex", I can do what I want.
 
