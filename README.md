@@ -276,15 +276,15 @@ This is CP437:\
 And this is my character set:
 ```
     000 001 002 010 011 012 020 021 022 100 101 102 110 111 112 120 121 122 200 201 202 210 211 212 220 221 222
-00  NUL ☺︎   ☻   ♥︎   ♦︎   ♣︎   ♠︎   •   ◘   ○   ◙   ♂︎   ♀︎   ♪   ♫   ☼   ►   ◄   ↕︎   ‼︎   ¶   §   ▬   ↨   ↑   ↓   →
-01  ←   ∟   ↔︎   ▲   ▼   sp  !   "   #   $   %   &   '   (   )   *   +   ,   ¡   .   /   :   ;   <   =   >   ?
-02  0   1   2   3   4   5   6   7   8   9   @   [   \   ]   ^   ¬   `   {   |   }   ~   ⌂   ¢   £   ¥   €   ¿
-10  _   A   B   C   D   E   F   G   H   I   J   K   L   M   N   O   P   Q   R   S   T   U   V   W   X   Y   Z
-11  -   a   b   c   d   e   f   g   h   i   j   k   l   m   n   o   p   q   r   s   t   u   v   w   x   y   z
-12  â   ä   à   á   ç   ê   ë   è   é   æ   î   ï   ì   í   å   ô   ö   ò   ó   °   û   ü   ù   ú   ÿ   ñ   ∩
-20  ·   α   ß   Γ   π   Σ   σ   µ   τ   Φ   Θ   Ω   δ   φ   ε   Ä   É   Æ   Å   Ç   Ö   Ü   Ñ   «   »   ÷   ±
-21  ░   ▒   ▓   █   ▄   ▀   ▌   ▐   ■   │   ┤   ╡   ╢   ╖   ╕   ╣   ║   ╗   ╝   ╜   ╛   ┐   └   ┴   ┬   ├   ─
-22  ┼   ╞   ╟   ╚   ╔   ╩   ╦   ╠   ═   ╬   ╧   ╨   ╤   ╥   ╙   ╘   ╒   ╓   ╫   ╪   ┘   ┌   ≡   ≈   √   ∞   nbsp
+00  NUL ♥︎   ♦︎   ☺︎   •   ○   ♂︎   ♪   ↨   ↓   ▼   ◄   ←   ↔︎   →   ►   ▲   ↑   ↕︎   ♫   ♀︎   ◙   ◘   ☻   ♣︎   ♠︎   ·
+01  %   -   \   «   ^   `   ;   ¿   ¡   {   [   (   <   =   >   )   ]   }   !   ?   :   '   "   »   /   +   *
+02  α   ß   Γ   π   Σ   σ   µ   τ   Φ   Θ   Ω   δ   φ   ε   a   b   c   d   e   f   g   h   i   j   k   l   m
+10  n   o   p   q   r   s   t   u   v   w   x   y   z   _   A   B   C   D   E   F   G   H   I   J   K   L   M
+11  N   O   P   Q   R   S   T   U   V   W   X   Y   Z   0   1   2   3   4   5   6   7   8   9   æ   Æ   å   Å
+12  â   ä   à   á   Ä   ê   ë   è   é   É   î   ï   ì   í   ÿ   ô   ö   ò   ó   Ö   û   ü   ù   ú   Ü   ç   Ç
+20  ☼   ≡   &   ∩   ∞   ÷   #   £   ¢   §   ∟   ▬   ,   ‼︎   .   |   ¬   ¶   $   €   ¥   ±   °   √   @   ≈   ⌂
+21  ╣   ╬   ╠   ╗   ╦   ╔   ╖   ╥   ╓   ▄   ▌   sp  ░   ▒   ▓   █   ▐   ▀   ╒   ╤   ╕   ┌   ┬   ┐   ├   ┼   ┤
+22  ■   ║   ═   ╝   ╩   ╚   ╜   ╨   ╙   ╢   ╫   ╟   ñ   ~   Ñ   ╞   ╪   ╡   ╘   ╧   ╛   └   ┴   ┘   ─   │   nbsp
 ```
 Which allows us to do stuff like this:
 ```
@@ -305,3 +305,7 @@ Which allows us to do stuff like this:
 ╚═╝                                                            ╚═╝
 ```
 And that's pretty cool
+
+This character set has a few intereting properties, first of all the characters `0` to `9` all map to the numerical values of 0 to 9, and following that logic you can see how the letters of the alphabet are arranged to agree with the hept system.\
+Furthermore, numbers and letters aren't the only ones to correspond when negated, you can see that for most characters, negating the bottom 3 trits actually gives back an inverted or corresponding character.\
+It's easiest to see with the pipes at the bottom, or on the first two lines of symbols, particularly this block: `{[(<=>)]}`. The pipes also have the property that negating the lowest trit mirrors them around the vertical axis.
