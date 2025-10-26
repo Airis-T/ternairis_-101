@@ -245,6 +245,18 @@ We can then scale to a full Tryte by simply making sure once we get the informat
 
 <img width="1021" height="956" alt="image" src="https://github.com/user-attachments/assets/d39a3e9c-0af3-4b10-9272-06990924fd5b" />
 
+### Conversion
+Converting between ternary and binary may sound counter-productive to what we're trying to do here, but most IO components are going to be binary, and being able to communicate with other computers would be a good thing.
+
+9 trits happen to map pretty nicely over 15 bits. The easiest way I found to convert in either direction was to hardcode the ternary values that correspond to each single bit being active.
+
+Here is the binary to ternary converter, simply adding the corresponding powers of 2:
+<img width="1698" height="737" alt="image" src="https://github.com/user-attachments/assets/99be9d69-6103-4cbb-a94a-830828fa7296" />
+
+Converting from ternary to binary was a bit more tricky, but I simply made a module that can take in two numbers, and subtract them if the result is greater than the minimum representation value. The status of if each module activated can then be read as the binary output.\
+<img width="1064" height="941" alt="image" src="https://github.com/user-attachments/assets/47a44abe-482e-4f52-ab2e-b1dab3217892" />\
+<img width="1680" height="683" alt="image" src="https://github.com/user-attachments/assets/85187dff-890e-409e-87a0-4fed476515fe" />
+
 ## Memory
 Nothing fancy in terms of construction, but there are some naming conventions that I would like to introduce:
 - A trit is the basic unit of data that can be stored in a single wire, equivalent to a binary bit
@@ -255,7 +267,7 @@ Nothing fancy in terms of construction, but there are some naming conventions th
 
 And so on.
 
-I will say I would have prefered to make a full Tryte address RAM, but the program was physically not able to handle it, so I had to limit myself to 2 nittles of addressing, which still allows for storing 729T of data in 1T chunks.
+I will say I would have prefered to make a full Tryte address custom RAM, but the program was physically not able to handle it, so for demonstration purposes I had to limit myself to 2 nittles of addressing, which still allows for storing 729T of data in 1T chunks.
 Here is the circuit that allows for selecting from 3 options :\
 <img width="660" height="525" alt="image" src="https://github.com/user-attachments/assets/26e18a50-93df-45b7-afde-4f6fd1066857" />
 
@@ -263,6 +275,9 @@ And the construction of the RAM, remember that we need to handle every wire indi
 <img width="1641" height="822" alt="image" src="https://github.com/user-attachments/assets/491c9017-f4fb-4843-aae4-e1259c9bd131" />\
 <img width="1634" height="824" alt="image" src="https://github.com/user-attachments/assets/75fbee7d-d0f5-4e99-bcd7-d850f2b74436" />\
 <img width="1051" height="914" alt="image" src="https://github.com/user-attachments/assets/f8d2ab2e-dc56-4b14-b220-7e8cdde8e93a" />
+
+That being said, having proven that it is possible to build an arbitrarily big ternary RAM, I will cheat a little and use the built-in binary RAM, with converters in the inputs and outputs, as a way to get to the full Tryte addressing and not have my computer explode:\
+<img width="1602" height="972" alt="image" src="https://github.com/user-attachments/assets/5ff9f648-df36-4526-913a-c1354a44ec06" />
 
 ## Character set
 This section will definitely move, but I just want it to be added to the document for now.
