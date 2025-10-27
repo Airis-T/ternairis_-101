@@ -203,12 +203,6 @@ This gives us our third adder, which is not simply named that way for theming pu
 
 <img width="821" height="270" alt="image" src="https://github.com/user-attachments/assets/a3a7de95-c671-4ff0-b246-a4db8abc9f8d" />
 
-### Multiplication
-The multiplier circuit is actually fairly easy to build, despite how builky it is.\
-Every trit of the scaling factor is either a 0, which does nothing, a 1, which adds a shifted copy of the number to multiply, or a Z, which adds a negative copy, and we know negation is just applying the NOT operation.\
-All of this can be done very simply by inverting the scaling factor, and XOR-ing each trit with the whole copy of the number to multiply, then adding everything up:\
-<img width="1787" height="642" alt="image" src="https://github.com/user-attachments/assets/5775f4b4-6e7c-4ee9-81a5-762f5cba0616" />
-
 ### Comparison
 Because comparison typically has 3 outputs, we have the advantage over binary here since we can compress it in a single trit.
 
