@@ -279,10 +279,9 @@ And the construction of the RAM, remember that we need to handle every wire indi
 That being said, having proven that it is possible to build an arbitrarily big ternary RAM, I will cheat a little and use the built-in binary RAM, with converters in the inputs and outputs, as a way to get to the full Tryte addressing and not have my computer explode:\
 <img width="1602" height="972" alt="image" src="https://github.com/user-attachments/assets/5ff9f648-df36-4526-913a-c1354a44ec06" />
 
-## Character set
-This section will definitely move, but I just want it to be added to the document for now.
-
-I cannot simply use the Unicode standard to represent characters on this computer, so I had to implement my own character set.
+## Screen display
+### Character set
+Because of how differently the data is being stored, I cannot simply use the Unicode standard to represent characters on this computer, so I had to implement my own character set.
 It uses 5 trits of addressing, which means a limit of 243 characters, and I used this to try and map a subset of Code Page 437 onto it.
 
 This is CP437:\
@@ -303,24 +302,37 @@ And this is my character set:
 ```
 Which allows us to do stuff like this:
 ```
-╔═╗                                                            ╔═╗
-╚═════════════════════════════════════════════════════════════ ║ ╝
-  ║                                                            ║
-  ║  ▓▓▓▓▓▓▒▓▓▓▓▒▓▓▓▓▓▒ ▓▓▓▒ ▓▓▒ ▓▓▓▓▒ ▓▓▓▓▒▓▓▓▓▓▒ ▓▓▓▓▒ ▓▓▓▒  ║
-  ║    ▓▓▒  ▓▓▓▒ ▓▓▒ ▓▓▒▓▓▓▓▒▓▓▒▓▓▒ ▓▓▒ ▓▓▒ ▓▓▒ ▓▓▒ ▓▓▒ ▓▓▒    ║
-  ║    ▓▒░  ▓▒░  ▓▒▒▒▒░ ▓▒░▓▓▒▒░▓▒▒▒▒▒░ ▓▒░ ▓▒▒▒▒░  ▓▒░   ▓▒░  ║
-  ║    ▒▒░  ▒▒▒▒░▒▒░ ▒▒░▒▒░ ▒▒▒░▒▒░ ▒▒░▒▒▒▒░▒▒░ ▒▒░▒▒▒▒░▒▒▒░   ║
-  ║                                                            ║
-  ║                 ▓▓▓▒       ▓▓▓▓▒      ▓▓▓▒                 ║
-  ║              ▓▓▓▒▓▓▒      ▓▓▒ ▓▓▒      ▓▓▒                 ║
-  ║                  ▓▒░      ▓▒░ ▓▒░      ▓▒░                 ║
-  ║                 ▒▒▒▒░      ▒▒▒▒░      ▒▒▒▒░                ║
-  ║                                                            ║
-╔ ║ ═════════════════════════════════════════════════════════════╗
-╚═╝                                                            ╚═╝
+╔═╗                                                          ╔═╗
+╚═══════════════════════════════════════════════════════════ ║ ╝
+  ║                                                          ║
+  ║ ██████▒████▒█████▒ ███▒ ██▒ ████▒ ████▒█████▒ ████▒ ███▒ ║
+  ║   █▓▒  ██▓▒ ██▒ █▓▒███▓▒█▓▒██▒ █▓▒ █▓▒ ██▒ █▓▒ █▓▒ █▓▒   ║
+  ║   ▓▒░  ▓▒░  ▓▓▓▒▒░ ▓▒░▓▓▓▒░▓▓▓▒▒▒░ ▓▒░ ▓▓▓▒▒░  ▓▒░   ▓▒░ ║
+  ║   ▓▒░  ▓▒▒▒░▓▒░ ▒▒░▓▒░ ▓▒▒░▓▒░ ▒▒░▓▒▒▒░▓▒░ ▒▒░▓▒▒▒░▓▒▒░  ║
+  ║                                                          ║
+  ║                ███▒       ████▒      ███▒                ║
+  ║             ███▒█▓▒      ██▒ █▓▒      █▓▒                ║
+  ║                 ▓▒░      ▓▓░ ▓▒░      ▓▒░                ║
+  ║                ▓▒▒▒░      ▓▒▒▒░      ▓▒▒▒░               ║
+  ║                                                          ║
+╔ ║ ═══════════════════════════════════════════════════════════╗
+╚═╝                                                          ╚═╝
 ```
 And that's pretty cool
 
 This character set has a few intereting properties, first of all the characters `0` to `9` all map to the numerical values of 0 to 9, and following that logic you can see how the letters of the alphabet are arranged to agree with the hept system.\
 Furthermore, numbers and letters aren't the only ones to correspond when negated, you can see that for most characters, negating the bottom 3 trits actually gives back an inverted or corresponding character.\
 It's easiest to see with the pipes at the bottom, or on the first two lines of symbols, particularly this block: `{[(<=>)]}`. The pipes also have the property that negating the lowest trit mirrors them around the vertical axis.
+
+### Display module
+I had to use the included binary pixel display, so this module will mostly be handled with binary.\
+It is meant for a 512x320 pixel console, with 8x16 characters, meaning an effective space of 64x20 chars.\
+The ROM holds the 16 bytes of pixel data for each characters in the set described above (hand written), and the wires are rigged so that data is drawn to the screen character by character, instead of the normal line by line.\
+The RAM holds the value of the characters that are to be drawn on the screen at each position.\
+The counter is 15 bits, which is much bigger than the screen (each value of the counter controls 8 pixels), meaning there is a 12288 clock cycles down time when the RAM accepts new data to be written in, and the IRQ out pin is high, which will allow the CPU to know when it is allowed to send draw data.\
+<img width="1110" height="925" alt="image" src="https://github.com/user-attachments/assets/32eb58ac-ad43-4fbf-bd78-45a873994931" />
+
+Quick test of data being sent to the console module:\
+<img width="1607" height="928" alt="image" src="https://github.com/user-attachments/assets/97b30410-6f91-408f-96ed-d66d8670e862" />
+
+
